@@ -28,11 +28,6 @@ const DiabetesApp = () => {
 
   if (isAuthenticated && user){
     return (
-    //   <NavigationContainer>
-    //   <Stack.Navigator>
-    //     <Stack.Screen name="Home" component={HomeScreen} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
     <BottomNavigation/>
     );
   } else {
