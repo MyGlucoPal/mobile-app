@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //Screens
 import HomeScreen from './screens/HomeScreen';
 import AuthScreen from './screens/authentication/AuthScreen';
 // Hooks
 import useAuth from './hooks/useAuth';
+import BottomNavigation from './components/BottomNavigation';
+
+const Stack = createNativeStackNavigator();
 
 const DiabetesApp = () => {
 
@@ -23,7 +28,12 @@ const DiabetesApp = () => {
 
   if (isAuthenticated && user){
     return (
-      <HomeScreen />
+    //   <NavigationContainer>
+    //   <Stack.Navigator>
+    //     <Stack.Screen name="Home" component={HomeScreen} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
+    <BottomNavigation/>
     );
   } else {
     return(
