@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 import RegisterForm from '../../components/RegisterForm';
 import LoginForm from '../../components/LoginForm';
@@ -9,7 +9,7 @@ const AuthScreen = () => {
     const [isRegistering, setIsRegistering] = useState(true);
 
     const form = (isRegistering) ? <RegisterForm /> : <LoginForm />;
-    const buttonText = (isRegistering) ? "Register" : "Login"
+    const buttonText = (isRegistering) ? "Login" : "Register"
 
     return (
         <SafeAreaView>
