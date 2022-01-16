@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { Text, View } from 'react-native';
-import { useFormik, Form, FormikProvider } from 'formik';
+import { useFormik, Form, FormikProvider, FormikValues, Formik } from 'formik';
 import { DefaultTheme, Button } from 'react-native-paper';
 
 // Custom components
@@ -46,38 +46,35 @@ const RegisterForm = () => {
             .min(6, "Password must be at least 6 characters long.")
     });
 
-    const formik = useFormik<InitialValues>({
-        initialValues: {
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: ''
-        },
-        validationSchema: RegisterSchema,
-        onSubmit: async (values, { setErrors, setSubmitting }) => {
-          try {
+    const handleSubmit = async (values: FormikValues) => {
+        const { setErrors, setSubmitting } = values;
+        try {
             await register(values.email, values.password, values.firstName, values.lastName);
-            
             if (isMountedRef.current) {
               setSubmitting(false);
             }
-          } catch (error: any) {
+        } catch (error: any) {
             console.error(error);
             if (isMountedRef.current) {
-              setErrors({ afterSubmit: error.message });
-              setSubmitting(false);
+                setErrors({ afterSubmit: error.message });
+                setSubmitting(false);
             }
-          }
         }
-    });
+    }
 
-
-    const { errors, touched, handleSubmit, isSubmitting, getFieldProps, handleChange } = formik;
-    
     return (
-        <View>
-            <FormikProvider value={formik}>
-                <Form autoComplete="off" noValidate onSubmit={handleSubmit}>            
+        <Formik
+            initialValues={{
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: ''
+            } as InitialValues}
+            onSubmit={handleSubmit}
+            validationSchema={RegisterSchema}
+        >
+            {({ handleChange, handleSubmit, errors, touched, isSubmitting }) => (
+                <View>
                     <TextInput
                         label="First name"
                         error={Boolean(touched.firstName && errors.firstName)}
@@ -93,6 +90,7 @@ const RegisterForm = () => {
                         theme={DefaultTheme}
                         onInput={handleChange('lastName')}
                     />
+
                     <TextInput
                         autoCompleteType='username'
                         textContentType='username'
@@ -103,7 +101,7 @@ const RegisterForm = () => {
                         onInput={handleChange('email')}
                         theme={DefaultTheme}
                     />
-            
+                
                     <TextInput
                         autoCompleteType="password"
                         textContentType='password'
@@ -115,6 +113,7 @@ const RegisterForm = () => {
                         onInput={handleChange('password')}
                         theme={DefaultTheme}
                     />
+
                     <Button 
                         mode='contained'
                         loading={isSubmitting}
@@ -123,9 +122,9 @@ const RegisterForm = () => {
                         Register 
                     </Button>
                     {errors.afterSubmit && <Text>{errors.afterSubmit}</Text>}
-                </Form>
-            </FormikProvider>
-        </View>
+                </View>
+            )}
+        </Formik>
     );
 }
 export default RegisterForm;
