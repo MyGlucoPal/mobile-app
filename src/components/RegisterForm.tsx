@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FormikValues, Formik } from "formik";
-import { DefaultTheme, Button } from "react-native-paper";
+import {
+  DefaultTheme,
+  Button,
+  TextInput as PaperTextInput,
+} from "react-native-paper";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 // Custom components
 import TextInput from "./TextInput";
@@ -19,11 +24,38 @@ type InitialValues = {
   afterSubmit?: string;
 };
 
-const RegisterForm = () => {
+interface RegisterFormProps {
+  onLoginPress: () => void;
+}
+
+const RegisterForm = (props: RegisterFormProps): JSX.Element => {
   const isMountedRef = useIsMountedRef();
   const { register } = useAuth();
 
-  const [securePassword, setSecurePassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const userIcon = (
+    <PaperTextInput.Icon
+      name={() => <AntDesign name="user" size={24} color="black" />}
+    />
+  );
+  const passwordIcon = (
+    <PaperTextInput.Icon
+      name={() => (
+        <Ionicons
+          name={showPassword ? "eye" : "eye-off"}
+          size={24}
+          color="black"
+          onPress={() => setShowPassword(!showPassword)}
+        />
+      )}
+    />
+  );
+  const emailIcon = (
+    <PaperTextInput.Icon
+      name={() => <Ionicons name="at" size={24} color="black" />}
+    />
+  );
 
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -48,6 +80,7 @@ const RegisterForm = () => {
 
   const handleSubmit = async (values: FormikValues) => {
     const { setErrors, setSubmitting } = values;
+    setShowPassword(false);
     try {
       await register(
         values.email,
@@ -81,13 +114,15 @@ const RegisterForm = () => {
       validationSchema={RegisterSchema}
     >
       {({ handleChange, handleSubmit, errors, touched, isSubmitting }) => (
-        <View>
+        <View style={styles.container}>
           <TextInput
             label="First name"
             error={Boolean(touched.firstName && errors.firstName)}
             errorMsg={errors.firstName}
             theme={DefaultTheme}
             onInput={handleChange("firstName")}
+            left={userIcon}
+            autoCapitalize="words"
           />
 
           <TextInput
@@ -96,29 +131,35 @@ const RegisterForm = () => {
             errorMsg={errors.lastName}
             theme={DefaultTheme}
             onInput={handleChange("lastName")}
+            left={userIcon}
+            autoCapitalize="words"
           />
 
           <TextInput
             autoCompleteType="username"
             textContentType="username"
-            label="email"
+            label="Email"
             error={Boolean(touched.email && errors.email)}
             errorMsg={errors.email}
             keyboardType="email-address"
             onInput={handleChange("email")}
             theme={DefaultTheme}
+            left={emailIcon}
+            autoCapitalize="none"
           />
 
           <TextInput
             autoCompleteType="password"
             textContentType="password"
-            label="password"
+            label="Password"
             error={Boolean(touched.password && errors.password)}
             errorMsg={errors.password}
             keyboardType="default"
-            secureTextEntry={securePassword}
+            secureTextEntry={!showPassword}
             onInput={handleChange("password")}
             theme={DefaultTheme}
+            left={passwordIcon}
+            autoCapitalize="none"
           />
 
           <Button
@@ -128,6 +169,14 @@ const RegisterForm = () => {
           >
             Register
           </Button>
+
+          <View style={styles.row}>
+            <Text> Have an account already? </Text>
+            <TouchableOpacity onPress={props.onLoginPress}>
+              <Text style={styles.link}>Login</Text>
+            </TouchableOpacity>
+          </View>
+
           {errors.afterSubmit && <Text>{errors.afterSubmit}</Text>}
         </View>
       )}
@@ -136,3 +185,18 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 40,
+  },
+  row: {
+    flexDirection: "row",
+    marginTop: 15,
+  },
+  link: {
+    fontWeight: "bold",
+  },
+});

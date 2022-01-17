@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Yup from "yup";
 import { Formik, FormikValues } from "formik";
-import { DefaultTheme, Button } from "react-native-paper";
+import {
+  DefaultTheme,
+  Button,
+  TextInput as PaperTextInput,
+} from "react-native-paper";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 // Custom components
-import Checkbox from "./Checkbox";
 import TextInput from "./TextInput";
 
 // Hooks
@@ -18,11 +22,33 @@ type InitialValues = {
   afterSubmit?: string;
 };
 
-const LoginForm = () => {
+interface LoginFormProps {
+  onSignUpPress: () => void;
+}
+
+const LoginForm = (props: LoginFormProps): JSX.Element => {
   const isMountedRef = useIsMountedRef();
   const { login } = useAuth();
 
-  const [securePassword, setSecurePassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const emailIcon = (
+    <PaperTextInput.Icon
+      name={() => <AntDesign name="user" size={24} color="black" />}
+    />
+  );
+  const passwordIcon = (
+    <PaperTextInput.Icon
+      name={() => (
+        <Ionicons
+          name={showPassword ? "eye" : "eye-off"}
+          size={24}
+          color="black"
+          onPress={() => setShowPassword(!showPassword)}
+        />
+      )}
+    />
+  );
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -33,6 +59,7 @@ const LoginForm = () => {
   });
 
   const handleSubmit = async (values: FormikValues) => {
+    setShowPassword(false);
     try {
       await login(values.email, values.password);
       if (isMountedRef.current) {
@@ -60,32 +87,31 @@ const LoginForm = () => {
       validationSchema={LoginSchema}
     >
       {({ handleChange, handleSubmit, errors, touched, isSubmitting }) => (
-        <View>
+        <View style={styles.container}>
           <TextInput
             autoCompleteType="username"
             textContentType="username"
-            label="email"
+            label="Email"
             error={Boolean(touched.email && errors.email)}
             errorMsg={errors.email}
             keyboardType="email-address"
             onInput={handleChange("email")}
             theme={DefaultTheme}
+            left={emailIcon}
+            autoCapitalize="none"
           />
           <TextInput
             autoCompleteType="password"
             textContentType="password"
-            label="password"
+            label="Password"
             error={Boolean(touched.password && errors.password)}
             errorMsg={errors.password}
             keyboardType="default"
-            secureTextEntry={securePassword}
+            secureTextEntry={!showPassword}
             onInput={handleChange("password")}
             theme={DefaultTheme}
-          />
-          <Checkbox
-            checked={!securePassword}
-            onPress={() => setSecurePassword(!securePassword)}
-            text="Show password"
+            left={passwordIcon}
+            autoCapitalize="none"
           />
 
           <Button
@@ -95,6 +121,13 @@ const LoginForm = () => {
           >
             Submit
           </Button>
+
+          <View style={styles.row}>
+            <Text> Don’t have an account? </Text>
+            <TouchableOpacity onPress={props.onSignUpPress}>
+              <Text style={styles.link}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
           {errors.afterSubmit && <Text>{errors.afterSubmit}</Text>}
         </View>
       )}
@@ -103,3 +136,18 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 40,
+  },
+  row: {
+    flexDirection: "row",
+    marginTop: 15,
+  },
+  link: {
+    fontWeight: "bold",
+  },
+});
