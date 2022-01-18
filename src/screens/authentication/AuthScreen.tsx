@@ -1,38 +1,21 @@
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from "react";
+import { View } from "react-native";
 
-import RegisterForm from '../../components/RegisterForm';
-import LoginForm from '../../components/LoginForm';
-import { Button } from 'react-native-paper';
+import RegisterForm from "../../components/RegisterForm";
+import LoginForm from "../../components/LoginForm";
 
 const AuthScreen = () => {
-    const [isRegistering, setIsRegistering] = useState(true);
-    if (isRegistering){
-        return (
-            <View>
-                <RegisterForm />
-                <Text>
-                    Already have an account?
-                </Text>
-                <Button onPress={()=> setIsRegistering(false) } mode = 'contained'>
-                    Log in
-                </Button>
-            </View>
-        );
-    } else {
-        return (
-            <View>
-                <LoginForm />
-                <Text>
-                    Don't have an account?
-                </Text>
-                <Button onPress={()=> setIsRegistering(true)} mode = 'contained'>
+  const [isRegistering, setIsRegistering] = useState(false);
 
-                    Sign up
-                </Button>
-            </View>
-        );
-    }
-
-}
+  return (
+    <View>
+      {isRegistering && (
+        <RegisterForm onLoginPress={() => setIsRegistering(false)} />
+      )}
+      {!isRegistering && (
+        <LoginForm onSignUpPress={() => setIsRegistering(true)} />
+      )}
+    </View>
+  );
+};
 export default AuthScreen;

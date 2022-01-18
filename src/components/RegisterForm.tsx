@@ -1,131 +1,210 @@
-import React, { useState } from 'react';
-import * as Yup from 'yup';
-import { Text, View } from 'react-native';
-import { useFormik, Form, FormikProvider } from 'formik';
-import { DefaultTheme, Button } from 'react-native-paper';
+import React, { useState } from "react";
+import * as Yup from "yup";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FormikValues, Formik } from "formik";
+import {
+  DefaultTheme,
+  Button,
+  TextInput as PaperTextInput,
+} from "react-native-paper";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 // Custom components
-import TextInput from './TextInput';
+import TextInput from "./TextInput";
 
 // Hooks
-import useAuth from '../hooks/useAuth';
-import useIsMountedRef from '../hooks/useIsMountedRef';
+import useAuth from "../hooks/useAuth";
+import useIsMountedRef from "../hooks/useIsMountedRef";
 
 type InitialValues = {
-    email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    afterSubmit?: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  afterSubmit?: string;
 };
 
-const RegisterForm = () => {
-    const isMountedRef = useIsMountedRef();
-    const { register } = useAuth();
-
-    const [securePassword, setSecurePassword] = useState(true);
-
-    const RegisterSchema = Yup.object().shape({
-        firstName: Yup.string()
-            .label('firstName')
-          .min(2, 'Too Short!')
-          .max(50, 'Too Long!')
-          .required('First name required'),
-        lastName: Yup.string()
-            .label('lastName')
-            .min(2, 'Too Short!')
-            .max(50, 'Too Long!')
-            .required('Last name required'),
-        email: Yup.string()
-            .label('email')
-            .email('Email must be a valid email address')
-            .required('Email is required'),
-        password: Yup.string()
-            .label('password')
-            .required('Password is required')
-            .min(6, "Password must be at least 6 characters long.")
-    });
-
-    const formik = useFormik<InitialValues>({
-        initialValues: {
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: ''
-        },
-        validationSchema: RegisterSchema,
-        onSubmit: async (values, { setErrors, setSubmitting }) => {
-          try {
-            await register(values.email, values.password, values.firstName, values.lastName);
-            
-            if (isMountedRef.current) {
-              setSubmitting(false);
-            }
-          } catch (error: any) {
-            console.error(error);
-            if (isMountedRef.current) {
-              setErrors({ afterSubmit: error.message });
-              setSubmitting(false);
-            }
-          }
-        }
-    });
-
-
-    const { errors, touched, handleSubmit, isSubmitting, getFieldProps, handleChange } = formik;
-    
-    return (
-        <View>
-            <FormikProvider value={formik}>
-                <Form autoComplete="off" noValidate onSubmit={handleSubmit}>            
-                    <TextInput
-                        label="First name"
-                        error={Boolean(touched.firstName && errors.firstName)}
-                        errorMsg={errors.firstName}
-                        theme={DefaultTheme}
-                        onInput={handleChange('firstName')}
-                    />
-
-                    <TextInput
-                        label="Last name"
-                        error={Boolean(touched.lastName && errors.lastName)}
-                        errorMsg={errors.lastName}
-                        theme={DefaultTheme}
-                        onInput={handleChange('lastName')}
-                    />
-                    <TextInput
-                        autoCompleteType='username'
-                        textContentType='username'
-                        label="email"
-                        error={Boolean(touched.email && errors.email)}
-                        errorMsg={errors.email}
-                        keyboardType='email-address'
-                        onInput={handleChange('email')}
-                        theme={DefaultTheme}
-                    />
-            
-                    <TextInput
-                        autoCompleteType="password"
-                        textContentType='password'
-                        label="password"
-                        error={Boolean(touched.password && errors.password)}
-                        errorMsg={errors.password}
-                        keyboardType='default'
-                        secureTextEntry={securePassword}
-                        onInput={handleChange('password')}
-                        theme={DefaultTheme}
-                    />
-                    <Button 
-                        mode='contained'
-                        loading={isSubmitting}
-                        onPress={handleSubmit}
-                    > 
-                        Register 
-                    </Button>
-                    {errors.afterSubmit && <Text>{errors.afterSubmit}</Text>}
-                </Form>
-            </FormikProvider>
-        </View>
-    );
+interface RegisterFormProps {
+  onLoginPress: () => void;
 }
+
+const RegisterForm = (props: RegisterFormProps): JSX.Element => {
+  const isMountedRef = useIsMountedRef();
+  const { register } = useAuth();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const userIcon = (
+    <PaperTextInput.Icon
+      name={() => <AntDesign name="user" size={24} color="black" />}
+    />
+  );
+
+  const lockIcon = (
+    <PaperTextInput.Icon
+      name={() => <Ionicons name="lock-closed" size={24} color="black" />}
+    />
+  );
+
+  const passwordIcon = (
+    <PaperTextInput.Icon
+      name={() => (
+        <Ionicons
+          name={showPassword ? "eye" : "eye-off"}
+          size={24}
+          color="black"
+          onPress={() => setShowPassword(!showPassword)}
+        />
+      )}
+    />
+  );
+  const emailIcon = (
+    <PaperTextInput.Icon
+      name={() => <Ionicons name="at" size={24} color="black" />}
+    />
+  );
+
+  const RegisterSchema = Yup.object().shape({
+    firstName: Yup.string()
+      .label("firstName")
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("First name required"),
+    lastName: Yup.string()
+      .label("lastName")
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Last name required"),
+    email: Yup.string()
+      .label("email")
+      .email("Email must be a valid email address")
+      .required("Email is required"),
+    password: Yup.string()
+      .label("password")
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters long."),
+  });
+
+  const handleSubmit = async (values: FormikValues) => {
+    const { setErrors, setSubmitting } = values;
+    setShowPassword(false);
+    try {
+      await register(
+        values.email,
+        values.password,
+        values.firstName,
+        values.lastName
+      );
+      if (isMountedRef.current) {
+        setSubmitting(false);
+      }
+    } catch (error: any) {
+      console.error(error);
+      if (isMountedRef.current) {
+        setErrors({ afterSubmit: error.message });
+        setSubmitting(false);
+      }
+    }
+  };
+
+  return (
+    <Formik
+      initialValues={
+        {
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+        } as InitialValues
+      }
+      onSubmit={handleSubmit}
+      validationSchema={RegisterSchema}
+    >
+      {({ handleChange, handleSubmit, errors, touched, isSubmitting }) => (
+        <View style={styles.container}>
+          <TextInput
+            label="First name"
+            error={Boolean(touched.firstName && errors.firstName)}
+            errorMsg={errors.firstName}
+            theme={DefaultTheme}
+            onInput={handleChange("firstName")}
+            left={userIcon}
+            autoCapitalize="words"
+          />
+
+          <TextInput
+            label="Last name"
+            error={Boolean(touched.lastName && errors.lastName)}
+            errorMsg={errors.lastName}
+            theme={DefaultTheme}
+            onInput={handleChange("lastName")}
+            left={userIcon}
+            autoCapitalize="words"
+          />
+
+          <TextInput
+            autoCompleteType="username"
+            textContentType="username"
+            label="Email"
+            error={Boolean(touched.email && errors.email)}
+            errorMsg={errors.email}
+            keyboardType="email-address"
+            onInput={handleChange("email")}
+            theme={DefaultTheme}
+            left={emailIcon}
+            autoCapitalize="none"
+          />
+
+          <TextInput
+            autoCompleteType="password"
+            textContentType="password"
+            label="Password"
+            error={Boolean(touched.password && errors.password)}
+            errorMsg={errors.password}
+            keyboardType="default"
+            secureTextEntry={!showPassword}
+            onInput={handleChange("password")}
+            theme={DefaultTheme}
+            right={passwordIcon}
+            left = {lockIcon}
+            autoCapitalize="none"
+          />
+
+          <Button
+            mode="contained"
+            loading={isSubmitting}
+            onPress={handleSubmit}
+          >
+            Register
+          </Button>
+
+          <View style={styles.row}>
+            <Text> Have an account already? </Text>
+            <TouchableOpacity onPress={props.onLoginPress}>
+              <Text style={styles.link}>Login</Text>
+            </TouchableOpacity>
+          </View>
+
+          {errors.afterSubmit && <Text>{errors.afterSubmit}</Text>}
+        </View>
+      )}
+    </Formik>
+  );
+};
+
 export default RegisterForm;
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 40,
+  },
+  row: {
+    flexDirection: "row",
+    marginTop: 15,
+  },
+  link: {
+    fontWeight: "bold",
+  },
+});

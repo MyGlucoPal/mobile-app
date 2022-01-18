@@ -28,6 +28,7 @@ const TextInput = (props: TextInputProps) => {
                 textContentType={props.textContentType}
                 autoCorrect={props.autoCorrect}
                 autoComplete={props.autoCompleteType}
+                {...props}
             />
             {/* Check if we have an error/errorMsg, if we do then display it */}
             {props.error && props.errorMsg &&
