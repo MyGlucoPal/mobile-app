@@ -1,43 +1,42 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 //Screens
-import HomeScreen from './screens/HomeScreen';
-import AuthScreen from './screens/authentication/AuthScreen';
+import AuthScreen from "./screens/authentication/AuthScreen";
+
 // Hooks
-import useAuth from './hooks/useAuth';
+import useAuth from "./hooks/useAuth";
+
+// Costume components
+import BottomNavigation from "./components/BottomNavigation";
+
+const Stack = createNativeStackNavigator();
 
 const DiabetesApp = () => {
-
   const { isInitialized, user, isAuthenticated } = useAuth();
 
-  if (!isInitialized){
+  if (!isInitialized) {
     return (
       <View style={styles.container}>
-        <Text>
-          Loading....
-        </Text>
+        <Text>Loading....</Text>
       </View>
-    )
+    );
   }
 
-  if (isAuthenticated && user){
-    return (
-      <HomeScreen />
-    );
+  if (isAuthenticated && user) {
+    return <BottomNavigation />;
   } else {
-    return(
-      <AuthScreen />
-    );
+    return <AuthScreen />;
   }
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
