@@ -7,7 +7,7 @@ import { collection, getDocs, setDoc, doc, getDoc } from 'firebase/firestore';
 import { ActionMap, AuthState, AuthUser, FirebaseContextType } from '../@types/authentication';
 import type { DocumentData } from 'firebase/firestore'
 //
-import { db, auth as firebaseAuth } from '../config';
+import { db, auth as firebaseAuth } from '../Firebase-config';
 
 // ----------------------------------------------------------------------
 
