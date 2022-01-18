@@ -37,6 +37,13 @@ const LoginForm = (props: LoginFormProps): JSX.Element => {
       name={() => <AntDesign name="user" size={24} color="black" />}
     />
   );
+
+  const lockIcon = (
+    <PaperTextInput.Icon
+      name={() => <Ionicons name="lock-closed" size={24} color="black" />}
+    />
+  );
+
   const passwordIcon = (
     <PaperTextInput.Icon
       name={() => (
@@ -110,7 +117,8 @@ const LoginForm = (props: LoginFormProps): JSX.Element => {
             secureTextEntry={!showPassword}
             onInput={handleChange("password")}
             theme={DefaultTheme}
-            left={passwordIcon}
+            right={passwordIcon}
+            left = {lockIcon}
             autoCapitalize="none"
           />
 
