@@ -39,6 +39,13 @@ const RegisterForm = (props: RegisterFormProps): JSX.Element => {
       name={() => <AntDesign name="user" size={24} color="black" />}
     />
   );
+
+  const lockIcon = (
+    <PaperTextInput.Icon
+      name={() => <Ionicons name="lock-closed" size={24} color="black" />}
+    />
+  );
+
   const passwordIcon = (
     <PaperTextInput.Icon
       name={() => (
@@ -158,7 +165,8 @@ const RegisterForm = (props: RegisterFormProps): JSX.Element => {
             secureTextEntry={!showPassword}
             onInput={handleChange("password")}
             theme={DefaultTheme}
-            left={passwordIcon}
+            right={passwordIcon}
+            left = {lockIcon}
             autoCapitalize="none"
           />
 
