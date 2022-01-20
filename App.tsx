@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DiabetesApp from './src/DiabetesApp';
+import Main from './src/Main';
 
 // Providers
 import { AuthProvider } from './src/context/FirebaseContext';
@@ -8,7 +8,7 @@ import { AuthProvider } from './src/context/FirebaseContext';
 const App = () => {
   return (
     <AuthProvider>
-      <DiabetesApp />
+      <Main />
     </AuthProvider>
   );
 }
