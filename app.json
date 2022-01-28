@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "cgalo",
     "name": "diabetes-management-app",
     "slug": "diabetes-management-app",
     "version": "1.0.0",
@@ -17,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cgalo.diabetes-management-app"
     },
     "android": {
       "adaptiveIcon": {
