@@ -5,7 +5,7 @@ import { Avatar, Title, TouchableRipple } from "react-native-paper";
 import InfoBox from "../components/InfoBox";
 import useAuth from "../hooks/useAuth";
 
-const UserProfile:React.FC = () => {
+const ProfileScreen = ():JSX.Element => {
   const { user } = useAuth();
   const first_name = user?.displayName.split(" ").slice(0, -1).join(" ") || "";
   const last_name = user?.displayName.split(" ").slice(-1).join(" ") || "";
@@ -80,7 +80,7 @@ const UserProfile:React.FC = () => {
   );
 };
 
-export default UserProfile;
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
