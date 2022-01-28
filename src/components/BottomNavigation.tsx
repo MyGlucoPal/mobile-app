@@ -3,7 +3,7 @@ import { BottomNavigation as Navigation } from 'react-native-paper';
 
 import HomeScreen from '../screens/HomeScreen';
 import MealScreen from '../screens/MealScreen';
-import UserScreen from '../screens/UserScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const BottomNavigation = () => {
   const [index, setIndex] = React.useState(1);
@@ -16,7 +16,7 @@ const BottomNavigation = () => {
   const renderScene = Navigation.SceneMap({
     meal: MealScreen,
     home: HomeScreen,
-    profile: UserScreen,
+    profile: ProfileScreen,
   });
 
   return (

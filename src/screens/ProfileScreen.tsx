@@ -5,7 +5,7 @@ import { Avatar, Title, TouchableRipple } from "react-native-paper";
 import InfoBox from "../components/InfoBox";
 import useAuth from "../hooks/useAuth";
 
-const UserProfile: React.FC<{}> = () => {
+const ProfileScreen = ():JSX.Element => {
   const { user } = useAuth();
   const first_name = user?.displayName.split(" ").slice(0, -1).join(" ") || "";
   const last_name = user?.displayName.split(" ").slice(-1).join(" ") || "";
@@ -17,10 +17,10 @@ const UserProfile: React.FC<{}> = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.userInfoSection}>
         <View style={{ flexDirection: "row", marginTop: 15 }}>
-          {!img && (
+          {img === "" && (
             <Avatar.Text size={80} label={first_name[0] + last_name[0]} />
           )}
-          {img && <Avatar.Image source={{ uri: img }} size={80} />}
+          {img !== "" && <Avatar.Image source={{ uri: img }} size={80} />}
           <View style={{ marginLeft: 20 }}>
             <Title
               style={[
@@ -80,7 +80,7 @@ const UserProfile: React.FC<{}> = () => {
   );
 };
 
-export default UserProfile;
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
