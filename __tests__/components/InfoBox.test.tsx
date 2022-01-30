@@ -15,10 +15,3 @@ describe("Info box displays correct values", () => {
     expect(tree.children.length).toBe(2);
   });
 });
-
-it("Info box renders correctly", () => {
-  const tree = renderer
-    .create(<Infobox title={TEST_TITLE} caption={TEST_VALUE} />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
