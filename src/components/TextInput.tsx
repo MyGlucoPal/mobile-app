@@ -37,12 +37,7 @@ const styles = StyleSheet.create({
     container: {
       width: '100%',
       marginVertical: 12,
-    },
-    error: {
-      fontSize: 14,
-      paddingHorizontal: 4,
-      paddingTop: 4,
-    },
+    }
 });
 
 export default memo(TextInput);
