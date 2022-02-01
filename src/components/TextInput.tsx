@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { DefaultTheme, HelperText, TextInput as Input} from 'react-native-paper';
+import { HelperText, TextInput as Input} from 'react-native-paper';
 import { TextInputProps as InputProps } from 'react-native-paper/lib/typescript/components/TextInput/TextInput';
 
 interface TextInputProps extends InputProps {
