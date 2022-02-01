@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
-import { DefaultTheme, TextInput as Input} from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { DefaultTheme, HelperText, TextInput as Input} from 'react-native-paper';
 import { TextInputProps as InputProps } from 'react-native-paper/lib/typescript/components/TextInput/TextInput';
 
 interface TextInputProps extends InputProps {
@@ -8,7 +8,7 @@ interface TextInputProps extends InputProps {
     errorMsg?: string | undefined;
 }
 
-const TextInput = (props: TextInputProps) => {
+const TextInput = (props: TextInputProps):JSX.Element => {
 
     const onChange = (newText: string) => {
         props.onInput(newText);
@@ -17,24 +17,19 @@ const TextInput = (props: TextInputProps) => {
     return (
         <View style={styles.container}>
             <Input 
-                label={props.label}
-                value={props.value}
-                placeholder={props.placeholder}
                 onChangeText={text => onChange(text)}
-                error={props.error}
-                mode={props.mode}
-                secureTextEntry={props.secureTextEntry}
-                keyboardType={props.keyboardType}
-                textContentType={props.textContentType}
-                autoCorrect={props.autoCorrect}
                 autoComplete={props.autoCompleteType}
                 {...props}
             />
-            {/* Check if we have an error/errorMsg, if we do then display it */}
-            {props.error && props.errorMsg &&
-                <Text>
+            {props.errorMsg && 
+                <HelperText
+                    type='error'
+                    onPressIn={() => {}}
+                    onPressOut={() => {}}
+                >
                     {props.errorMsg}
-                </Text>}
+                </HelperText>
+            }
         </View>
     )
 }
