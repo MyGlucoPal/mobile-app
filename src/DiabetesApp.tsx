@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 //Screens
 import AuthScreen from "./screens/authentication/AuthScreen";
@@ -10,8 +9,6 @@ import useAuth from "./hooks/useAuth";
 
 // Costume components
 import BottomNavigation from "./components/BottomNavigation";
-
-const Stack = createNativeStackNavigator();
 
 const DiabetesApp = () => {
   const { isInitialized, user, isAuthenticated } = useAuth();
