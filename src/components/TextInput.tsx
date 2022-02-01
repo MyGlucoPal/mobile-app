@@ -21,15 +21,13 @@ const TextInput = (props: TextInputProps):JSX.Element => {
                 autoComplete={props.autoCompleteType}
                 {...props}
             />
-            {props.errorMsg && 
-                <HelperText
-                    type='error'
-                    onPressIn={() => {}}
-                    onPressOut={() => {}}
-                >
-                    {props.errorMsg}
-                </HelperText>
-            }
+            <HelperText
+                type='error'
+                onPressIn={() => {}}
+                onPressOut={() => {}}
+            >
+                {props.errorMsg}
+            </HelperText>
         </View>
     )
 }
