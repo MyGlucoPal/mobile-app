@@ -1,33 +1,22 @@
 import React from 'react';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 import DiabetesApp from './src/DiabetesApp';
 
 // Providers
 import { AuthProvider } from './src/context/FirebaseContext';
-import { PreferencesContext } from './src/context/PreferenceContext';
+import { SettingsProvider } from './src/context/SettingsContext';
 
 
 const App = ():JSX.Element => {
-  const [theme, setTheme] = React.useState<'light' | 'dark'>('light');
-  
-  function toggleTheme() {
-    setTheme(theme => (theme === 'light' ? 'dark' : 'light'));
-  }
-
-
-  const preferences = React.useMemo(
-    () => ({
-      toggleTheme,
-      theme,
-    }),
-    [theme]
-  );
 
   return (
     <AuthProvider>
-      <PreferencesContext.Provider value={preferences}>
-        <DiabetesApp />
-      </PreferencesContext.Provider>
+      <SettingsProvider>
+        <PaperProvider>
+          <DiabetesApp />
+        </PaperProvider>
+      </SettingsProvider>
     </AuthProvider>
   );
 }
