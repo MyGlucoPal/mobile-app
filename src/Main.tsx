@@ -8,7 +8,7 @@ import AuthScreen from "./screens/authentication/AuthScreen";
 import useAuth from "./hooks/useAuth";
 
 // Costume components
-import BottomNavigation from "./components/BottomNavigation";
+import RootNavigator from "./navigation/RootNavigation";
 
 const DiabetesApp = () => {
   const { isInitialized, user, isAuthenticated } = useAuth();
@@ -22,7 +22,7 @@ const DiabetesApp = () => {
   }
 
   if (isAuthenticated && user) {
-    return <BottomNavigation />;
+    return <RootNavigator />;
   } else {
     return <AuthScreen />;
   }

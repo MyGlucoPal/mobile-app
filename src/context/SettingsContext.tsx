@@ -5,7 +5,10 @@ type SettingsContextType = {
   toggleTheme: () => void;
 };
 
-const SettingsContext = createContext<SettingsContextType | null>(null);
+const SettingsContext = createContext<SettingsContextType>({
+  theme: 'light',
+  toggleTheme: () => {}
+} as SettingsContextType);
 
 function SettingsProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
