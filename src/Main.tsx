@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { Provider as ThemeProvider } from "react-native-paper";
 
 //Screens
 import AuthScreen from "./screens/authentication/AuthScreen";
@@ -10,8 +11,15 @@ import useAuth from "./hooks/useAuth";
 // Costume components
 import RootNavigator from "./navigation/RootNavigation";
 
-const DiabetesApp = () => {
+// Custom imports
+import { LightTheme, DarkTheme } from "./theme";
+
+// Hooks
+import useSettings from "./hooks/useSettings";
+
+const Main = (): JSX.Element => {
   const { isInitialized, user, isAuthenticated } = useAuth();
+  const { theme } = useSettings();
 
   if (!isInitialized) {
     return (
@@ -21,11 +29,11 @@ const DiabetesApp = () => {
     );
   }
 
-  if (isAuthenticated && user) {
-    return <RootNavigator />;
-  } else {
-    return <AuthScreen />;
-  }
+  return (
+    <ThemeProvider theme={theme === "light" ? LightTheme : DarkTheme}>
+      {isAuthenticated && user ? <RootNavigator /> : <AuthScreen />}
+    </ThemeProvider>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -37,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DiabetesApp;
+export default Main;
