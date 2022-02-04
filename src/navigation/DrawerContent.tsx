@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   DrawerContentComponentProps,
@@ -20,7 +20,6 @@ import {
 import Animated, { Adaptable } from "react-native-reanimated";
 
 // Context
-import { SettingsContext } from "../context/SettingsContext";
 import useSettings from "../hooks/useSettings";
 
 function DrawerContent(props: DrawerContentComponentProps) {
@@ -28,7 +27,6 @@ function DrawerContent(props: DrawerContentComponentProps) {
 
   const paperTheme = useTheme();
   const { theme, toggleTheme } = useSettings();
-
 
   const translateX = Animated.interpolateNode(progress as Adaptable<number>, {
     inputRange: [0, 0.5, 0.7, 0.8, 1],
