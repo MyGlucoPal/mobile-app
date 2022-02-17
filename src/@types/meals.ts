@@ -1,6 +1,6 @@
 export interface Meal {
     totalCarbs: number;
-    footItems: FoodItem[];
+    foodItems: FoodItem[];
     totalTimesEaten: number;
     dateCreated: Date;
     dateLastModified: Date;
