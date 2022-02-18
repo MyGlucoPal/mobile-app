@@ -1,9 +1,5 @@
-interface User{
-    name: string;
-    email: string;
-    password?: string;
-}
+import { Timestamp } from "firebase/firestore";
 
 export {
-    User
+    Timestamp
 };
