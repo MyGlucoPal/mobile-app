@@ -1,9 +1,11 @@
+import type { Timestamp } from "../@types/commons";
+
 export interface Meal {
     totalCarbs: number;
     foodItems: FoodItem[];
     totalTimesEaten: number;
-    dateCreated: Date;
-    dateLastModified: Date;
+    dateCreated: Timestamp;
+    dateLastModified: Timestamp;
     mealType: MealType;
 }
 
