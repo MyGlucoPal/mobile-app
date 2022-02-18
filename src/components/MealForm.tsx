@@ -84,20 +84,21 @@ const MealForm = (props: MealFormProps): JSX.Element => {
     const MealSchema = Yup.object().shape({
         mealName: Yup.string()
             .label("mealName")
-            .max(50, "Too Long!")       // Decide on reasonable length
-            .required("Meal name is required"), // Is it required
+            .max(50, "Too Long!")
+            .required("Meal name is required"),
         itemName: Yup.string()
             .label("itemName")
-            // .min(1, "Too Short!")    // If not required, don't need
-            .max(50, "Too Long!"),      // Decide on reasonable length
-        totalCarbs: Yup.number()    // Do we need max or min??
+            // .min(1, "Too Short!")
+            .max(50, "Too Long!")
+            .required("Item name is required"),
+        totalCarbs: Yup.number()
             .label("totalCarbs")
             .min(1, "Too Small!")
             .required("Number of carbs is required"),
         brand: Yup.string()
             .label("brand")
-            .max(50, "Brand name too long"),    // Length?
-        servingSize: Yup.number()   // Do we need max or min??
+            .max(50, "Brand name too long"),
+        servingSize: Yup.number()
             .label("servingSize")
             .min(1, "Too Small!")
             .required("Serving size is required")
