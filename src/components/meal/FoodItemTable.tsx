@@ -1,7 +1,8 @@
 import React from "react"
 import { View, StyleSheet } from "react-native";
 import { DataTable } from "react-native-paper";
-import { FoodItem } from "../../@types/meals";
+
+import type { FoodItem } from "../../@types/meals";
 
 interface FoodItemTableProps {
     foodItems: FoodItem[]
