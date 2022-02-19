@@ -1,3 +1,4 @@
+
 export default class Queue <T> {
     #head: Node<T> | null;
     #tail: Node<T> | null;
