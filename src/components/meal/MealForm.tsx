@@ -10,14 +10,14 @@ import {
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 // Custom components
-import TextInput from "./TextInput";
+import TextInput from "../TextInput";
 
 // Hooks
-import useAuth from "../hooks/useAuth";
-import useIsMountedRef from "../hooks/useIsMountedRef";
+import useAuth from "../../hooks/useAuth";
+import useIsMountedRef from "../../hooks/useIsMountedRef";
 
 // TODO(nloewenthal): REMOVE
-import InfoBox from "../components/InfoBox";
+import InfoBox from "../../components/InfoBox";
 
 type InitialValues = {
     mealName: string;
