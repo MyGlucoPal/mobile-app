@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: "center",
-    //   flex-direction: column;
     flexDirection: "column",
   },
 });
