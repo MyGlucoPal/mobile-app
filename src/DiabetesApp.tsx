@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 //Screens
 import AuthScreen from "./screens/authentication/AuthScreen";
@@ -8,13 +7,12 @@ import AuthScreen from "./screens/authentication/AuthScreen";
 // Hooks
 import useAuth from "./hooks/useAuth";
 
-// Costume components
+// Custom components
 import BottomNavigation from "./components/BottomNavigation";
-
-const Stack = createNativeStackNavigator();
+import ErrorModal from "./components/ErrorModal";
 
 const DiabetesApp = () => {
-  const { isInitialized, user, isAuthenticated } = useAuth();
+  const { isInitialized, isAuthenticated } = useAuth();
 
   if (!isInitialized) {
     return (
@@ -22,12 +20,14 @@ const DiabetesApp = () => {
         <Text>Loading....</Text>
       </View>
     );
-  }
-
-  if (isAuthenticated && user) {
-    return <BottomNavigation />;
   } else {
-    return <AuthScreen />;
+    return (
+      <React.Fragment>
+        {isAuthenticated && <BottomNavigation />}
+        {!isAuthenticated && <AuthScreen />}
+        <ErrorModal />
+      </React.Fragment>
+    );
   }
 };
 
