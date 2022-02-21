@@ -1,16 +1,16 @@
 name: Continuous Integration
 
- on:
-   pull_request:
-     branches: [main]
+on:
+  pull_request:
+    branches: [main]
 
- jobs:
-   test_pull_requests:
-     runs-on: ubuntu-latest
-     steps:
-       - uses: actions/checkout@v2
-       - uses: actions/setup-node@v2
-         with:
-           node-version: "16"
-       - run: yarn install
-       - run: yarn test
+jobs:
+  test_pull_requests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - run: yarn install
+      - run: yarn test
