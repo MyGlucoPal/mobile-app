@@ -1,0 +1,13 @@
+name: Code Format
+
+ on:
+   pull_request:
+     branches: [main]
+
+ jobs:
+   verify_code_format:
+     steps:
+       - uses: actions/checkout@v2   # Check out the repository first.
+       - uses: actionsx/prettier@v2  # https://github.com/marketplace/actions/actionsx-prettier
+         with:
+           args: --check .            # Verify that the files are `prettier`
