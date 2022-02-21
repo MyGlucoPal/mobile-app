@@ -8,7 +8,12 @@ jobs:
   verify_code_format:
     runs-on: ubuntu-latest          # OS type and version to run this in
     steps:
-      - uses: actions/checkout@v2   # Check out the repository first.
+      - name: Check out the repository
+        uses: actions/checkout@v2   # Check out the repository first.
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Verifying if code was formatted properly
       - uses: actionsx/prettier@v2  # https://github.com/marketplace/actions/actionsx-prettier
         with:
           args: --check .            # Verify that the files are `prettier`
+      - name: Solution if failing ❌
+        run: echo "Run `yarn format` inside the directory"
