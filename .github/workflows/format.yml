@@ -6,6 +6,7 @@ on:
 
 jobs:
   verify_code_format:
+    runs-on: ubuntu-latest          # OS type and version to run this in
     steps:
       - uses: actions/checkout@v2   # Check out the repository first.
       - uses: actionsx/prettier@v2  # https://github.com/marketplace/actions/actionsx-prettier
