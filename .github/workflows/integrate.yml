@@ -1,16 +1,23 @@
 name: Expo App Continuous Integration
-
 on:
-  pull_request:
-    branches: [main]
+ pull_request:
+  branches: [main]
 
 jobs:
-  test_pull_requests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "16"
-      - run: yarn install
-      - run: yarn test
+verify_code_format:
+  - uses: actions/checkout@v2   # Check out the repository first.
+  - uses: actionsx/prettier@v2  # https://github.com/marketplace/actions/actionsx-prettier
+    with:
+      args: --check .           # Verify that the files are `prettier`
+
+ verify_test_pass:
+  runs-on: ubuntu-latest
+  steps:
+   - uses: actions/checkout@v2
+   - uses: actions/setup-node@v2
+     with:
+      node-version: '16'
+   - name: Installing dependencies
+   - run: yarn install
+   - name: Running tests
+   - run: yarn test
