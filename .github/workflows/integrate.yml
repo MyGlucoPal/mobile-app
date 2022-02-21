@@ -8,11 +8,13 @@ jobs:
   run_tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Check out the repository
+        uses: actions/checkout@v2
+      - name: Setting up Node
+        uses: actions/setup-node@v2
         with:
           node-version: "16"
-      - name: Installing dependencies
-      - run: yarn install
-      - name: Running tests
-      - run: yarn test
+      - name: 📦 Installing packages
+        run: yarn install
+      - name: Running tests...
+        run: yarn test
