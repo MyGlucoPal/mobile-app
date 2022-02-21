@@ -15,5 +15,3 @@ jobs:
       - uses: actionsx/prettier@v2  # https://github.com/marketplace/actions/actionsx-prettier
         with:
           args: --check .            # Verify that the files are `prettier`
-      - name: Solution if failing ❌
-        run: echo "Run `yarn format` inside the directory"
