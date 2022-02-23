@@ -15,6 +15,11 @@ import TextInput from "./TextInput";
 // Hooks
 import useAuth from "../hooks/useAuth";
 import useIsMountedRef from "../hooks/useIsMountedRef";
+import useError from "../hooks/useError";
+
+// Services & Utilities
+import { getAuthErrorMessage } from "../services/auth-service";
+
 
 type InitialValues = {
   email: string;
@@ -31,6 +36,7 @@ interface RegisterFormProps {
 const RegisterForm = (props: RegisterFormProps): JSX.Element => {
   const isMountedRef = useIsMountedRef();
   const { register } = useAuth();
+  const { setErrorMsg } = useError()
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -85,26 +91,13 @@ const RegisterForm = (props: RegisterFormProps): JSX.Element => {
       .min(6, "Password must be at least 6 characters long."),
   });
 
-  const handleSubmit = async (values: FormikValues) => {
-    const { setErrors, setSubmitting } = values;
+  const handleSubmit = (values: FormikValues) => {
     setShowPassword(false);
-    try {
-      await register(
-        values.email,
-        values.password,
-        values.firstName,
-        values.lastName
-      );
-      if (isMountedRef.current) {
-        setSubmitting(false);
-      }
-    } catch (error: any) {
-      console.error(error);
-      if (isMountedRef.current) {
-        setErrors({ afterSubmit: error.message });
-        setSubmitting(false);
-      }
-    }
+    register(values.email, values.password, values.firstName, values.lastName)
+      .catch(error => {
+        const errorMsgToDisplay = getAuthErrorMessage(error?.code);
+        setErrorMsg(errorMsgToDisplay);
+      })
   };
 
   return (

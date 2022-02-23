@@ -13,8 +13,11 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import TextInput from "./TextInput";
 
 // Hooks
-import useIsMountedRef from "../hooks/useIsMountedRef";
 import useAuth from "../hooks/useAuth";
+import useError from "../hooks/useError";
+
+// Serive & Utilites
+import { getAuthErrorMessage } from "../services/auth-service";
 
 type InitialValues = {
   email: string;
@@ -27,20 +30,19 @@ interface LoginFormProps {
 }
 
 const LoginForm = (props: LoginFormProps): JSX.Element => {
-  const isMountedRef = useIsMountedRef();
   const { login } = useAuth();
-
+  const { setErrorMsg } = useError();
   const [showPassword, setShowPassword] = useState(false);
 
   const emailIcon = (
     <PaperTextInput.Icon
-      name={() => <AntDesign name="user" size={24} color="black" />}
+      name={() => <AntDesign name='user' size={24} color='black' />}
     />
   );
 
   const lockIcon = (
     <PaperTextInput.Icon
-      name={() => <Ionicons name="lock-closed" size={24} color="black" />}
+      name={() => <Ionicons name='lock-closed' size={24} color='black' />}
     />
   );
 
@@ -50,7 +52,7 @@ const LoginForm = (props: LoginFormProps): JSX.Element => {
         <Ionicons
           name={showPassword ? "eye" : "eye-off"}
           size={24}
-          color="black"
+          color='black'
           onPress={() => setShowPassword(!showPassword)}
         />
       )}
@@ -65,21 +67,13 @@ const LoginForm = (props: LoginFormProps): JSX.Element => {
     password: Yup.string().label("password").required("Password is required"),
   });
 
-  const handleSubmit = async (values: FormikValues) => {
+  const handleSubmit = (values: FormikValues) => {
     setShowPassword(false);
-    try {
-      await login(values.email, values.password);
-      if (isMountedRef.current) {
-        values.setSubmitting(false);
-      }
-    } catch (error: any) {
-      console.error(error);
-      values.resetForm();
-      if (isMountedRef.current) {
-        values.setSubmitting(false);
-        values.setErrors({ afterSubmit: error.message });
-      }
-    }
+    login(values.email, values.password)
+      .catch((error) => {
+        const errorMsgToDisplay = getAuthErrorMessage(error?.code);
+        setErrorMsg(errorMsgToDisplay);
+      });
   };
 
   return (
@@ -91,42 +85,40 @@ const LoginForm = (props: LoginFormProps): JSX.Element => {
         } as InitialValues
       }
       onSubmit={handleSubmit}
-      validationSchema={LoginSchema}
-    >
+      validationSchema={LoginSchema}>
       {({ handleChange, handleSubmit, errors, touched, isSubmitting }) => (
         <View style={styles.container}>
           <TextInput
-            autoCompleteType="username"
-            textContentType="username"
-            label="Email"
+            autoCompleteType='username'
+            textContentType='username'
+            label='Email'
             error={Boolean(touched.email && errors.email)}
             errorMsg={errors.email}
-            keyboardType="email-address"
+            keyboardType='email-address'
             onInput={handleChange("email")}
             theme={DefaultTheme}
             left={emailIcon}
-            autoCapitalize="none"
+            autoCapitalize='none'
           />
           <TextInput
-            autoCompleteType="password"
-            textContentType="password"
-            label="Password"
+            autoCompleteType='password'
+            textContentType='password'
+            label='Password'
             error={Boolean(touched.password && errors.password)}
             errorMsg={errors.password}
-            keyboardType="default"
+            keyboardType='default'
             secureTextEntry={!showPassword}
             onInput={handleChange("password")}
             theme={DefaultTheme}
             right={passwordIcon}
-            left = {lockIcon}
-            autoCapitalize="none"
+            left={lockIcon}
+            autoCapitalize='none'
           />
 
           <Button
-            mode="contained"
+            mode='contained'
             loading={isSubmitting}
-            onPress={handleSubmit}
-          >
+            onPress={handleSubmit}>
             Submit
           </Button>
 
