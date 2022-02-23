@@ -10,7 +10,7 @@ service cloud.firestore {
     }
 
     match /meals/{mealId} {
-      allow read: if (resource.data.userId == request.auth.uid);
+      allow read, write: if (resource.data.userId == request.auth.uid);
     }
   }
 }
