@@ -1,16 +1,22 @@
-name: Expo App Continuous Integration
+name: Continuous Integration
 
 on:
   pull_request:
     branches: [main]
 
 jobs:
-  test_pull_requests:
+  run_tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Check out the repository
+        uses: actions/checkout@v2
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Setting up Node
+        uses: actions/setup-node@v2
         with:
           node-version: "16"
-      - run: yarn install
-      - run: yarn test
+      - name: 📦 Installing packages
+        run: yarn install
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: Running tests...
+        run: yarn test

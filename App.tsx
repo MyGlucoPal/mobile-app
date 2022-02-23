@@ -8,15 +8,15 @@ import { ErrorProvider } from './src/context/ErrorContext';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 const App = () => {
-  return (
-    <PaperProvider>
-      <AuthProvider>
-        <ErrorProvider>
-          <DiabetesApp />
-        </ErrorProvider>
-      </AuthProvider>
-    </PaperProvider>
-  );
-}
+   return (
+      <PaperProvider>
+         <AuthProvider>
+            <ErrorProvider>
+               <DiabetesApp />
+            </ErrorProvider>
+         </AuthProvider>
+      </PaperProvider>
+   );
+};
 
 export default App;

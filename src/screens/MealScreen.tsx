@@ -12,29 +12,35 @@ import { addMeal } from '../services/meal-service';
 import { FoodItem, MealType } from '../@types/meals';
 
 const MealScreen = () => {
-    const { user } = useAuth();
-    const [foodItems, setFoodItems] = useState([] as FoodItem[]);
-    const userId = user?.userId || "";
+   const { user } = useAuth();
+   const [foodItems, setFoodItems] = useState([] as FoodItem[]);
+   const userId = user?.userId || '';
 
-    const onItemAdded=(foodItem: FoodItem) => {
-        setFoodItems(oldFoodItems => [...oldFoodItems, foodItem]);
-    }
+   const onItemAdded = (foodItem: FoodItem) => {
+      setFoodItems((oldFoodItems) => [...oldFoodItems, foodItem]);
+   };
 
-    const onMealComplete=() => {
-        var allCarbs = 0;
-        for (let i = 0; i < foodItems.length; i++) {
-            allCarbs += foodItems[i].totalCarbs;
-        }
-        
-        addMeal(allCarbs, foodItems, MealType.SNACK, userId);
-    }
+   const onMealComplete = () => {
+      var allCarbs = 0;
+      for (let i = 0; i < foodItems.length; i++) {
+         allCarbs += foodItems[i].totalCarbs;
+      }
 
-    return (<View>
-        <ItemForm onItemAdded={(foodItem: FoodItem) => {onItemAdded(foodItem)}} />
-        <FoodItemTable foodItems={foodItems}/>
+      addMeal(allCarbs, foodItems, MealType.SNACK, userId);
+   };
 
-        <Button onPress={onMealComplete}>Register Meal</Button>
-    </View>);
-}
+   return (
+      <View>
+         <ItemForm
+            onItemAdded={(foodItem: FoodItem) => {
+               onItemAdded(foodItem);
+            }}
+         />
+         <FoodItemTable foodItems={foodItems} />
+
+         <Button onPress={onMealComplete}>Register Meal</Button>
+      </View>
+   );
+};
 
 export default MealScreen;
