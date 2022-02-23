@@ -28,6 +28,8 @@ You are going to need 2 different terminal windows, since we need to run a local
    firebase emulators:start
    ```
 
+   > This emulator is required to running for the tests to run. If you are done testing you can kill the emulator by pressing: `ctrl + c`
+
 2. Now on your other terminal windows we'll be running the tests
    - You can run `yarn test` and it will run all tests inside the `__tests__` directory. This includes UI tests (components/pages), as well
      as the tests inside the `__tests__/firebase/` tests.
