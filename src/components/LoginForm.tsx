@@ -67,7 +67,7 @@ const LoginForm = (props: LoginFormProps): JSX.Element => {
     password: Yup.string().label("password").required("Password is required"),
   });
 
-  const handleSubmit = async (values: FormikValues) => {
+  const handleSubmit = (values: FormikValues) => {
     setShowPassword(false);
     login(values.email, values.password)
       .catch((error) => {

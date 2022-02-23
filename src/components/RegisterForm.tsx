@@ -91,7 +91,7 @@ const RegisterForm = (props: RegisterFormProps): JSX.Element => {
       .min(6, "Password must be at least 6 characters long."),
   });
 
-  const handleSubmit = async (values: FormikValues) => {
+  const handleSubmit = (values: FormikValues) => {
     setShowPassword(false);
     register(values.email, values.password, values.firstName, values.lastName)
       .catch(error => {
