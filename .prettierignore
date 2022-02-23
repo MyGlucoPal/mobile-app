@@ -5,6 +5,7 @@ coverage
 # Ignore ts and yaml files for now
 *.ts
 *.yml
+*.json
 
 # Mimic .gitignore
 node_modules/
