@@ -77,4 +77,9 @@ describe("Meal security rules", () => {
     await firebase.assertSucceeds(testRead.get());
     await firebase.clearFirestoreData({ projectId: PROJECT_ID });
   });
+
+
+  test("We cannot fetch someone else's meal", async() => {
+    
+  });
 });
