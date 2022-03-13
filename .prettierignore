@@ -2,9 +2,10 @@
 build
 coverage
 
-# Ignore ts and yaml files for now
+# Ignore ts, yaml, and json files for now
 *.ts
 *.yml
+*.json
 
 # Mimic .gitignore
 node_modules/
