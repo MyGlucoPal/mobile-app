@@ -17,6 +17,8 @@ jobs:
           node-version: "16"
       - name: 📦 Installing packages
         run: yarn install
+      - name: 🔌 Installing Firebase Emulator
+        run: npm install -g firebase-tools
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: Running tests...
-        run: yarn test
+      - name: Running tests with firebase emulator...
+        run: firebase emulators:exec 'yarn test'
