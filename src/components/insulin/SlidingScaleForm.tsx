@@ -12,17 +12,17 @@ import { Entypo, Fontisto } from '@expo/vector-icons';
 
 // Custom components
 import TextInput from '../TextInput';
-
-//import { SlidingScaleTable } from '../../@types/insulin';
-
-import { InsulinDose } from '../../@types/insulin';
-import { Meal } from '../../@types/meals';
 import Dropdown from '../Dropdown';
 
+// Types
+import { InsulinDose } from '../../@types/insulin';
+import { Meal } from '../../@types/meals';
+
+
 type InitialValues = {
+   doseLevel: string;
    totalInsulinUnits?: number;
    bloodGlucose?: number;
-   doseLevel: string;
    totalCarbs?: number;
 };
 
@@ -111,7 +111,6 @@ const SlidingScaleForm = (props: SlidingScaleFormProps): JSX.Element => {
                   errorMsg={errors.totalCarbs}
                   theme={DefaultTheme}
                   onInput={handleChange('totalCarbs')}
-                  //left={doseIcon}
                   autoCapitalize="words"
                   defaultValue={props.meal?.totalCarbs.toString() || '0'}
                />
