@@ -18,7 +18,6 @@ import Dropdown from '../Dropdown';
 import { InsulinDose } from '../../@types/insulin';
 import { Meal } from '../../@types/meals';
 
-
 type InitialValues = {
    doseLevel: string;
    totalInsulinUnits?: number;
