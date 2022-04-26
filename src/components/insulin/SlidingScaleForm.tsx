@@ -56,7 +56,8 @@ const SlidingScaleForm = (props: SlidingScaleFormProps): JSX.Element => {
          .min(0, "Total carbs can't be less than 0"),
    });
 
-   const handleSubmit = async (values: FormikValues) => {
+   const handleSubmit = (values: FormikValues) => {
+      console.log('submitting in the sliding form')
       const insulinDose: InsulinDose = {
          bloodGlucose: parseInt(values.bloodGlucose, 10),
          doseLevel: values.doseLevel,
@@ -75,10 +76,7 @@ const SlidingScaleForm = (props: SlidingScaleFormProps): JSX.Element => {
                totalCarbs: props.meal?.totalCarbs || 0,
             } as InitialValues
          }
-         onSubmit={(values, { resetForm }) => {
-            handleSubmit(values);
-            resetForm();
-         }}
+         onSubmit={handleSubmit}
          validationSchema={ScaleSchema}
       >
          {({
@@ -87,12 +85,13 @@ const SlidingScaleForm = (props: SlidingScaleFormProps): JSX.Element => {
             errors,
             touched,
             isSubmitting,
-            values,
+            values
          }) => (
             <View style={styles.container}>
                <Dropdown
                   options={['LOW', 'MEDIUM', 'HIGH']}
                   label="Dose Level"
+                  onSelection={handleChange('doseLevel')}
                />
                <TextInput
                   label="Glucose Level"

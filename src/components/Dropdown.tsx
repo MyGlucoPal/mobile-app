@@ -7,7 +7,7 @@ interface DropdownProps {
    options: string[];
    label: string;
    defaultIdx?: number;
-   // onSelection: (selectedValue: string) => void;   // Returns the `selectedValue`
+   onSelection: (selectedValue: string) => void;   // Returns the `selectedValue`
 }
 
 const Dropdown = (props: DropdownProps): JSX.Element => {
