@@ -1,26 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Checkbox as PaperCheckbox } from 'react-native-paper';
 
-// types
-import { TextInputProps as InputProps } from 'react-native-paper/lib/typescript/components/TextInput/TextInput';
-
 interface CheckBoxProps {
-   checked: boolean;
-   onPress: () => void;
+   isChecked: (selectedValue: boolean) => void;
    text?: string;
 }
 
 const Checkbox = (props: CheckBoxProps) => {
+   const [checked, setChecked] = useState(false);
+
+   const onPress = () => {
+      const newVal = !checked;
+      setChecked(newVal);
+      props.isChecked(newVal);
+   }
+
    return (
       <View style={styles.container}>
          <View style={styles.checkboxContainer}>
             <PaperCheckbox
-               status={props.checked ? 'checked' : 'unchecked'}
-               onPress={props.onPress}
-               // theme={styles.checkbox}
+               status={checked ? 'checked' : 'unchecked'}
+               onPress={onPress}
             />
-
             {props.text && <Text style={styles.label}>{props.text}</Text>}
          </View>
       </View>
