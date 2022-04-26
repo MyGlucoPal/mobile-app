@@ -26,24 +26,24 @@ const FavoriteMealModal = (props: FavoriteMealModalProps): JSX.Element => {
    const [inputMealName, setInputMealName] = useState('');
    const [isSavingFavoriteMeal, setIsSavingFavoriteMeal] = useState(false);
 
-//    const MealNameSchema = Yup.object().shape({
-//         isFavoriteMeal: Yup.boolean()
-//         .label('isFavoriteMeal'),
-//         mealName: Yup.string()
-//         .label('mealName')
-//         .max(50, 'Too Long!')
-//         .when('isFavoriteMeal', {
-//             is: true,
-//             then: Yup.string().required('Meal name is required').min(1, "Too short!")
-//         }),
-//       password: Yup.string().label('password').required('Password is required'),
-//    });
-   
+   //    const MealNameSchema = Yup.object().shape({
+   //         isFavoriteMeal: Yup.boolean()
+   //         .label('isFavoriteMeal'),
+   //         mealName: Yup.string()
+   //         .label('mealName')
+   //         .max(50, 'Too Long!')
+   //         .when('isFavoriteMeal', {
+   //             is: true,
+   //             then: Yup.string().required('Meal name is required').min(1, "Too short!")
+   //         }),
+   //       password: Yup.string().label('password').required('Password is required'),
+   //    });
+
    function onSubmit() {
       props.onSetMealName(inputMealName);
    }
 
-   function onSelectCreateMealName (isSelected: boolean) {
+   function onSelectCreateMealName(isSelected: boolean) {
       setIsSavingFavoriteMeal(isSelected);
    }
 
@@ -56,27 +56,33 @@ const FavoriteMealModal = (props: FavoriteMealModalProps): JSX.Element => {
          <Modal visible={props.isVisible} onDismiss={props.onDismiss}>
             <View style={styles.container}>
                <Card>
-                  <Card.Title
-                     title="Save Meal"
-                  />
+                  <Card.Title title="Save Meal" />
                   <Card.Content>
-                     <Checkbox 
+                     <Checkbox
                         isChecked={onSelectCreateMealName}
-                        text='Do you want to save as favorite meal?'
+                        text="Do you want to save as favorite meal?"
                      />
-                     { isSavingFavoriteMeal && 
+                     {isSavingFavoriteMeal && (
                         <TextInput
                            label="Meal Name"
                            onInput={setInputMealName}
                            theme={DefaultTheme}
                         />
-                     }
+                     )}
                   </Card.Content>
                   <Card.Actions style={styles.buttonContainer}>
-                     <Button style={styles.button} onPress={onSubmit} mode="contained">
+                     <Button
+                        style={styles.button}
+                        onPress={onSubmit}
+                        mode="contained"
+                     >
                         Submit
                      </Button>
-                     <Button style={styles.button} onPress={() => {}} mode="contained">
+                     <Button
+                        style={styles.button}
+                        onPress={() => {}}
+                        mode="contained"
+                     >
                         Cancel
                      </Button>
                   </Card.Actions>
@@ -97,8 +103,8 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
    },
    button: {
-       margin: 10,
-   }
+      margin: 10,
+   },
 });
 
 export default FavoriteMealModal;

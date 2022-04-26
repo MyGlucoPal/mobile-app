@@ -14,7 +14,7 @@ const Checkbox = (props: CheckBoxProps) => {
       const newVal = !checked;
       setChecked(newVal);
       props.isChecked(newVal);
-   }
+   };
 
    return (
       <View style={styles.container}>
