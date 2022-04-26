@@ -15,10 +15,13 @@ import { FirebaseError } from 'firebase/app';
  * @param foodItems     list of `FoodItem` objects that compose the meal
  * @param mealType      the type of meal 
  * @param userId        string ID to attach with the meal to identify the user with the meal
+ * @param mealName      optional string for nickname user gave to this meal
  */
-export const addMeal = async(totalCarbs: number, foodItems: FoodItem[], mealType: MealType, userId: string) => {
+export const addMeal = async(totalCarbs: number, foodItems: FoodItem[], mealType: MealType, userId: string,
+    maybeMealName?: string) => {
+    const mealName = maybeMealName || "";
     const now = getCurrentTimestamp();
-    const meal = createMeal(totalCarbs, foodItems, mealType, 1, now, now);
+    const meal = createMeal(totalCarbs, foodItems, mealType, mealName, 1, now, now);
     try {
         // Add the meal data into the backend/firebase
         const mealDocRef = collection(db, 'meals')
@@ -46,7 +49,7 @@ export const addMeal = async(totalCarbs: number, foodItems: FoodItem[], mealType
  * @param dateLastModified  optional timestamp the meal was last updated at, defautls to `now`
  * @returns 
  */
-function createMeal(totalCarbs: number, foodItems: FoodItem[], mealType: MealType,
+function createMeal(totalCarbs: number, foodItems: FoodItem[], mealType: MealType, mealName:string,
     totalTimesEaten?: number, dateCreated?: Timestamp, dateLastModified?: Timestamp ): Meal{
     const now = getCurrentTimestamp();
     return {
@@ -55,6 +58,7 @@ function createMeal(totalCarbs: number, foodItems: FoodItem[], mealType: MealTyp
         totalTimesEaten: totalTimesEaten || 1,
         mealType: mealType,
         dateCreated: dateCreated || now,
-        dateLastModified: dateLastModified || now
+        dateLastModified: dateLastModified || now,
+        mealName: mealName
     };
 }
