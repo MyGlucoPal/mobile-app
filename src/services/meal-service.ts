@@ -18,7 +18,7 @@ import { FirebaseError } from 'firebase/app';
  * @param mealName      optional string for nickname user gave to this meal
  */
 export const addMeal = async(totalCarbs: number, foodItems: FoodItem[], mealType: MealType, userId: string,
-    maybeMealName?: string) => {
+    maybeMealName?: string): Promise<Meal> => {
     const mealName = maybeMealName || "";
     const now = getCurrentTimestamp();
     const meal = createMeal(totalCarbs, foodItems, mealType, mealName, 1, now, now);
@@ -36,6 +36,7 @@ export const addMeal = async(totalCarbs: number, foodItems: FoodItem[], mealType
             console.log("Error trying to add meal to DB");
         }
     }
+    return meal;
 }
 
 /**

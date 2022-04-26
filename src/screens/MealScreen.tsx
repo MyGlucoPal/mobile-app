@@ -17,22 +17,22 @@ const MealScreen = () => {
    const [foodItems, setFoodItems] = useState([] as FoodItem[]);
    const [favoriteMealModalVisible, setFavoriteMealModalVisible] =
       useState(false);
-   const [currentMealName, setCurrentMealName] = useState('');
-   const userId = user?.userId || '';
+   const [totalCarbs, setTotalCarbs] = useState(0);
+   const [didSubmitMeal, setDidSubmitMeal] = useState(false);
 
    const onItemAdded = (foodItem: FoodItem) => {
       setFoodItems((oldFoodItems) => [...oldFoodItems, foodItem]);
    };
 
    const onMealComplete = () => {
-      var allCarbs = 0;
+      var allCarbs = 0, totalItems = 0;
       for (let i = 0; i < foodItems.length; i++) {
-         allCarbs += foodItems[i].totalCarbs;
+         allCarbs += foodItems[i].totalCarbs * foodItems[i].servingSize;
+         totalItems++;
       }
-
+      setTotalCarbs(allCarbs);
       setFavoriteMealModalVisible(true);
-
-      addMeal(allCarbs, foodItems, MealType.SNACK, userId);
+      // addMeal(allCarbs, foodItems, MealType.SNACK, user?.userId || '');
    };
 
    return (
@@ -40,9 +40,10 @@ const MealScreen = () => {
          <FavoriteMealModal
             isVisible={favoriteMealModalVisible}
             onDismiss={() => setFavoriteMealModalVisible(false)}
-            onSetMealName={(newMealName: string) =>
-               setCurrentMealName(newMealName)
-            }
+            totalCarbs={totalCarbs}
+            foodItems={foodItems}
+            mealType={MealType.SNACK}
+            userId={user?.userId || ''}
          />
 
          <ItemForm
@@ -51,8 +52,6 @@ const MealScreen = () => {
             }}
          />
          <FoodItemTable foodItems={foodItems} />
-
-         <Text>{currentMealName}</Text>
 
          <Button onPress={onMealComplete}>Register Meal</Button>
       </View>

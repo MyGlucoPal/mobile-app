@@ -21,12 +21,12 @@ import { Meal } from '../../@types/meals';
 type InitialValues = {
    doseLevel: string;
    totalInsulinUnits?: number;
-   bloodGlucose?: number;
+   bloodGlucose: number;
    totalCarbs?: number;
 };
 
 interface SlidingScaleFormProps {
-   onItemAdded: (item: InsulinDose) => void;
+   onSubmit: (insulinDose: InsulinDose) => void;
    meal?: Meal;
 }
 
@@ -63,7 +63,7 @@ const SlidingScaleForm = (props: SlidingScaleFormProps): JSX.Element => {
          totalCarbs: parseInt(values.totalCarbs, 10),
          totalInsulinUnits: parseInt(values.totalInsulinUnits, 10),
       };
-      props.onItemAdded(insulinDose);
+      props.onSubmit(insulinDose);
    };
 
    return (

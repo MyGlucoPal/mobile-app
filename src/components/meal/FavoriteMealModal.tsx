@@ -22,6 +22,7 @@ import TextInput from '../TextInput';
 import type { FoodItem, Meal, MealType } from '../../@types/meals';
 
 import { addMeal } from '../../services/meal-service';
+import InsulinCard from '../insulin/InsulingCard';
 
 interface FavoriteMealModalProps {
    isVisible: boolean;
@@ -36,6 +37,8 @@ const FavoriteMealModal = (props: FavoriteMealModalProps): JSX.Element => {
    const [inputMealName, setInputMealName] = useState('');
    const [isSavingFavoriteMeal, setIsSavingFavoriteMeal] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
+   const [successMealSubmit, setSuccessMealSubmit] = useState(false);
+   const [createdMeal, setCreatedMeal] = useState({} as Meal);
 
    //    const MealNameSchema = Yup.object().shape({
    //         isFavoriteMeal: Yup.boolean()
@@ -50,8 +53,12 @@ const FavoriteMealModal = (props: FavoriteMealModalProps): JSX.Element => {
    //       password: Yup.string().label('password').required('Password is required'),
    //    });
 
-   const onSubmitMeal = () => {
-      addMeal(props.totalCarbs, props.foodItems, props.mealType, props.userId, inputMealName);
+   const onSubmitMeal = async() => {
+      setIsLoading(true);
+      const newMeal = await addMeal(props.totalCarbs, props.foodItems, props.mealType, props.userId, inputMealName);
+      setSuccessMealSubmit(true);
+      setCreatedMeal(newMeal);
+      setIsLoading(false);
       // We want to send the meal data to the parent component, or send it here directly to firebase
    }
 
@@ -62,7 +69,7 @@ const FavoriteMealModal = (props: FavoriteMealModalProps): JSX.Element => {
    return (
       <Portal>
          <Modal visible={props.isVisible} onDismiss={props.onDismiss}>
-            { !isLoading &&
+            { !isLoading && !successMealSubmit &&
                <View style={styles.container}>
                   <Card>
                      <Card.Title title="Save Meal" />
@@ -97,6 +104,11 @@ const FavoriteMealModal = (props: FavoriteMealModalProps): JSX.Element => {
                      </Card.Actions>
                   </Card>
                </View>
+            }
+            { !isLoading && successMealSubmit && 
+               <InsulinCard 
+                  meal={createdMeal}
+               />
             }
             {isLoading && 
                <ActivityIndicator animating={true} color={Colors.purple800} />
