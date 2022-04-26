@@ -37,10 +37,16 @@ const HomeScreen = () => {
                            marginBottom: 5,
                            textAlign: 'center',
                         },
-                     ]}>Welcome to your homescreen!
+                     ]}>Welcome to My Gluco Pal!
          </Text>
 
-         <Image source={require('../../images/glucoseStockImage.jpg')}
+         <Image source={require('../../images/myGlucoPalLogo.png')}
+         style={{marginTop: 10, marginBottom: 10, marginLeft: 100, width: 200, height: 200}} />
+
+         {/* <Image source={require('../../images/glucoseStockImage.jpg')}
+         style={{marginTop: 10, marginBottom: 10, marginLeft: 60, width: 300, height: 200}} /> */}
+
+         <Image source={require('../../images/insulinStockImage.jpg')}
          style={{marginTop: 10, marginBottom: 10, marginLeft: 60, width: 300, height: 200}} />
 
          <Button style={{
@@ -50,9 +56,6 @@ const HomeScreen = () => {
          }} mode="contained">
             Help with testing blood sugar
          </Button>
-
-         <Image source={require('../../images/insulinStockImage.jpg')}
-         style={{marginTop: 10, marginBottom: 10, marginLeft: 60, width: 300, height: 200}} />
 
          <Button style={{
             margin: 20
