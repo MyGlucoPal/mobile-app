@@ -7,6 +7,7 @@ export interface Meal {
     dateCreated: Timestamp;
     dateLastModified: Timestamp;
     mealType: MealType;
+    mealName: string;
 }
 
 export enum MealType {
