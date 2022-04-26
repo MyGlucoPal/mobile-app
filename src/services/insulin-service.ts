@@ -24,11 +24,10 @@ export const calculateInsulinDosage = (doseLevel: string, totalCarbs: number, bl
     var totalInsulinDose = 0;
 
     // Correction factor
-    for (var i = 1; i < bs_min.length; i++) {
-        if (bloodGlucose < bs_min[i]) {
-            totalInsulinDose += bs_insulin_low[i - 1];
-        } else {
+    for (var i = bs_min.length; i >= 0; i--) {
+        if (bloodGlucose >= bs_min[i]) {
             totalInsulinDose += bs_insulin_low[i];
+            break;
         }
     }
 

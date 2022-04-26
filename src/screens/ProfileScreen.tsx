@@ -7,11 +7,20 @@ import useAuth from '../hooks/useAuth';
 
 const ProfileScreen = (): JSX.Element => {
    const { user } = useAuth();
+   const { logout } = useAuth();
    const first_name = user?.displayName.split(' ').slice(0, -1).join(' ') || '';
    const last_name = user?.displayName.split(' ').slice(-1).join(' ') || '';
    const img = user?.image || '';
    const email = user?.email || '';
    const fullName = first_name + ' ' + last_name;
+
+   const handleLogout = async () => {
+      try {
+         await logout();
+      } catch (error: any) {
+         console.log('Error logging out \n' + error);
+      }
+   };
 
    return (
       <SafeAreaView style={styles.container}>
@@ -73,6 +82,12 @@ const ProfileScreen = (): JSX.Element => {
                <View style={styles.menuItem}>
                   {/* <Icon name="settings-outline" color="#FF6347" size={25} /> */}
                   <Text style={styles.menuItemText}>Settings</Text>
+               </View>
+            </TouchableRipple>
+
+            <TouchableRipple onPress={handleLogout}>
+               <View style={styles.menuItem}>
+                  <Text style={styles.menuItemText}>Logout</Text>
                </View>
             </TouchableRipple>
          </View>

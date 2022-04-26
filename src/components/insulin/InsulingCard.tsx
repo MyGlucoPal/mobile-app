@@ -18,6 +18,7 @@ import TextInput from '../TextInput';
 
 interface InsulinCardProps {
    meal: Meal;
+   onDismiss: () => void;
 }
 
 const InsulinCard = (props: InsulinCardProps):JSX.Element => {
@@ -54,6 +55,8 @@ const InsulinCard = (props: InsulinCardProps):JSX.Element => {
 
    const routeToUserScreen = () => {
       // navigation.goBack();
+      // TEMPORARY
+      props.onDismiss();
    }
 
    return (
@@ -102,7 +105,7 @@ const InsulinCard = (props: InsulinCardProps):JSX.Element => {
             </Button>
             <Button
                style={styles.button}
-               onPress={() => {}}
+               onPress={() => {props.onDismiss()}}
                mode="contained"
             >
                Cancel

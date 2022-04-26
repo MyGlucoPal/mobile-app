@@ -96,7 +96,7 @@ const FavoriteMealModal = (props: FavoriteMealModalProps): JSX.Element => {
                         </Button>
                         <Button
                            style={styles.button}
-                           onPress={() => {}}
+                           onPress={() => {props.onDismiss()}}
                            mode="contained"
                         >
                            Cancel
@@ -108,6 +108,9 @@ const FavoriteMealModal = (props: FavoriteMealModalProps): JSX.Element => {
             { !isLoading && successMealSubmit && 
                <InsulinCard 
                   meal={createdMeal}
+                  onDismiss={() => {
+                     props.onDismiss();
+                  }}
                />
             }
             {isLoading && 
