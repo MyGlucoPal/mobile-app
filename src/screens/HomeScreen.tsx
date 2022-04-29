@@ -46,7 +46,7 @@ const HomeScreen = () => {
          {/* <Image source={require('../../images/glucoseStockImage.jpg')}
          style={{marginTop: 10, marginBottom: 10, marginLeft: 60, width: 300, height: 200}} /> */}
 
-         <Image source={require('../../images/insulinStockImage.jpg')}
+         <Image source={require('../../images/insulinStockImage.png')}
          style={{marginTop: 10, marginBottom: 10, marginLeft: 60, width: 300, height: 200}} />
 
          <Button style={{
